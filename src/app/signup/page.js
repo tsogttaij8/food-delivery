@@ -22,6 +22,7 @@ export default function CombinedSignUp() {
       setEmailError("Please enter your email");
       return;
     }
+    //
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!regex.test(email)) {
       setEmailError("Please enter a valid email");
