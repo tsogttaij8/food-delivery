@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-
+// 
 export default function FoodCard({ image, name, description, price }) {
   return (
     <div
