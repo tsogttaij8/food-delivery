@@ -11,9 +11,7 @@ export default function AdminPage() {
 
   return (
     <div className="flex min-h-screen bg-[#F4F4F5]">
-      {/* ✅ Sidebar */}
       <div className="flex flex-col w-[220px] bg-white p-6 shadow-sm">
-        {/* Logo хэсэг */}
         <div className="flex items-center gap-3 mb-10">
           <HeaderIcon />
           <div>
@@ -24,9 +22,7 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Menu хэсэг */}
         <div className="flex flex-col gap-1">
-          {/* Food menu */}
           <div
             onClick={() => setActiveMenu("food")}
             className={`flex items-center gap-3 w-full h-11 px-4 rounded-xl cursor-pointer transition-all duration-200
@@ -44,7 +40,6 @@ export default function AdminPage() {
             <span className="text-[15px]">Food menu</span>
           </div>
 
-          {/* Orders menu */}
           <div
             onClick={() => setActiveMenu("orders")}
             className={`flex items-center gap-3 w-full h-11 px-4 rounded-xl cursor-pointer transition-all duration-200
@@ -63,14 +58,12 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Доод хэсэг (optional: профайл, logout гэх мэт) */}
         <div className="mt-auto pt-6 border-t border-[#E4E4E7] flex items-center gap-3">
           <AvatarIcon />
           <span className="text-[14px] text-[#52525B] font-medium">Admin</span>
         </div>
       </div>
 
-      {/* ✅ Main content */}
       <div className="flex-1 px-10 py-6">
         {activeMenu === "food" && (
           <div className="flex flex-col w-full border-gray-100 h-[948px] items-end gap-6">
