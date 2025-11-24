@@ -1,6 +1,11 @@
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter", // ➜ Inter font variable нэр
+});
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -20,7 +25,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#404040]`}
+        className={`
+          ${inter.variable}
+          ${geistSans.variable}
+          ${geistMono.variable}
+          antialiased 
+          bg-[#404040]
+        `}
       >
         {children}
       </body>
