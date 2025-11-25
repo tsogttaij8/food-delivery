@@ -47,12 +47,38 @@ export default function AddNewFoodCard() {
                 ✕
               </button>
             </div>
+            <div className="flex flex-row gap-6">
+              <div className="flex flex-col gap-2">
+                <div className="text-[14px]">Food name</div>
+                <input
+                  placeholder="Type food name"
+                  type="text"
+                  className="border p-2 rounded-md h-[38px]"
+                ></input>
+              </div>
+              <div className="flex flex-col gap-2">
+                <div className="text-[14px]">Food price</div>
+                <input
+                  placeholder="Enter price"
+                  type="text"
+                  className="border p-2 rounded-md h-[38px]"
+                ></input>
+              </div>
+            </div>
             <div className="flex flex-col gap-2">
-              <div className="text-[14px] font">Dishes info</div>
+              <div>Ingredients</div>
+              <input
+                className="border p-2 rounded-md h-[90px] w-full"
+                placeholder="List ingredients..."
+                type="text"
+              ></input>
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="text-[14px] font">Food image</div>
               <input
                 type="text"
-                placeholder="type category name..."
-                className="border p-2 rounded-md w-full"
+                placeholder="Choose a file or drag & drop it here"
+                className="border p-2 rounded-md w-full h-[138px] bg-gray-100 "
               />
             </div>
 
