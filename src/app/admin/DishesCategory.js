@@ -31,7 +31,7 @@ export default function DishesCategoryAdmin() {
       console.log(err);
     }
   };
-  // console.log(categoryData);
+  console.log(categoryData);
 
   useEffect(() => {
     getData();
