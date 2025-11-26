@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import AddNewFoodCard from "./AddNewFood";
+import AdminFoodCard from "./adminFoodCards";
 
 export default function CategoryWithItems() {
   const [categoryData, setCategoryData] = useState([]);
@@ -27,7 +28,12 @@ export default function CategoryWithItems() {
           className="w-full min-h-[325px] p-5 border border-[#E4E4E7] flex flex-col gap-4 bg-white rounded-xl"
         >
           <div className="text-[20px] font-medium">{item.categoryName}</div>
-          <AddNewFoodCard />
+          <div className="flex flex-row gap-5">
+            <AddNewFoodCard categoryId={item._id} />
+            {item.foods.map((food) => (
+              <AdminFoodCard key={food._id} {...food} />
+            ))}
+          </div>
         </div>
       ))}
     </div>
