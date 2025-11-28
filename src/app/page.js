@@ -6,8 +6,8 @@ import UserHomePage from "./User/page";
 export default function Login() {
   return (
     <div>
-      <AdminPage />
-      {/* <UserHomePage /> */}
+      {/* <AdminPage /> */}
+      <UserHomePage />
       {/* <SignUpMain /> */}
     </div>
   );

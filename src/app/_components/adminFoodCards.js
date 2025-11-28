@@ -22,11 +22,13 @@ export default function AdminFoodCard({
   foodIngredients,
   foodImage,
   category,
+  _id,
 }) {
   const [open, setOpen] = useState(false);
+  const [foodId, setFoodId] = useState("");
 
   const [categoryData, setCategoryData] = useState([]);
-
+  const id = _id;
   const foodSchema = Yup.object().shape({
     foodName: Yup.string().required("Food Name Required!"),
     foodPrice: Yup.string().required("Food Price Required!"),
@@ -34,6 +36,44 @@ export default function AdminFoodCard({
     foodImage: Yup.mixed().required("Food Image is required"),
     category: Yup.mixed().required("Category is required"),
   });
+
+  const handleDelete = async (id) => {
+    try {
+      console.log(id);
+      const res = await axios.delete(`http://localhost:1000/food/${id}`);
+      console.log("Food deleted successfully:", res.data);
+    } catch (err) {
+      console.log("error deleting food:", err);
+    }
+  };
+
+  const handleSubmit = async (values) => {
+    // console.log(_id);
+    try {
+      // const formData = {
+      //   foodName: values.foodName,
+      //   foodPrice: values.foodPrice,
+      //   foodIngredients: values.foodIngredients,
+      //   id: id,
+      //   foodImage: values.foodImage,
+      // };
+      const formData = new FormData();
+      formData.append("foodName", values.foodName);
+      formData.append("foodPrice", values.foodPrice);
+      formData.append("foodIngredients", values.foodIngredients);
+      formData.append("foodImage", values.foodImage);
+      formData.append("id", id);
+      // console.log(formData);
+      const res = await axios.put("http://localhost:1000/food", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      console.log("Food created:", res.data);
+      setOpen(false);
+    } catch (err) {
+      console.log("Error |updating food:", err);
+    }
+  };
 
   const getCategories = async () => {
     try {
@@ -43,7 +83,7 @@ export default function AdminFoodCard({
       console.log(err);
     }
   };
-  console.log(categoryData);
+  // console.log(categoryData);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -58,7 +98,9 @@ export default function AdminFoodCard({
         className="h-[129px] w-full bg-black rounded-xl flex justify-end items-end p-5 bg-cover"
       >
         <div
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setOpen(true);
+          }}
           className="w-11 h-11 flex items-center justify-center bg-white rounded-full"
         >
           <EditIcon />
@@ -83,10 +125,10 @@ export default function AdminFoodCard({
               foodPrice: foodPrice,
               category: category,
               foodIngredients: foodIngredients,
-              foodImage: null,
+              foodImage: foodImage,
             }}
             validationSchema={foodSchema}
-            // onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
             className=" fixed inset-0 bg-black/40 flex justify-center items-center"
           >
             {({ setFieldValue }) => (
@@ -171,6 +213,7 @@ export default function AdminFoodCard({
                 </div>
                 <div className="flex flex-row justify-between gap-2">
                   <div>Ingredients</div>
+
                   <div className="flex flex-col">
                     <Field
                       name="foodIngredients"
@@ -186,26 +229,32 @@ export default function AdminFoodCard({
                 </div>
                 <div className="flex flex-row justify-between gap-2">
                   <div className="text-[14px] font">Food image</div>
-                  <input
-                    type="file"
-                    name="foodImage"
-                    onChange={(e) =>
-                      setFieldValue("foodImage", e.target.files[0])
-                    }
-                    className="border p-2 rounded-md w-[288px] h-[138px] bg-gray-100"
-                    accept="image/*"
-                  />
+                  <div>
+                    <input
+                      type="file"
+                      name="foodImage"
+                      onChange={(e) =>
+                        setFieldValue("foodImage", e.target.files[0])
+                      }
+                      className="border p-2 rounded-md w-[288px] h-[138px] bg-gray-100"
+                      accept="image/*"
+                    />
+                  </div>
                 </div>
 
                 <div className="flex flex-row justify-between gap-3 w-full h-[64px] items-end">
-                  <button className="w-[48px] h-[40px] border border-red-500 rounded-md flex justify-center items-center ">
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(id)}
+                    className="w-[48px] h-[40px] border border-red-500 rounded-md flex justify-center items-center "
+                  >
                     <TrashIcon />
                   </button>
                   <button
                     type="submit"
                     className="px-4 py-2 rounded-md bg-black text-white"
                   >
-                    Add Dish
+                    Save Changes
                   </button>
                 </div>
               </Form>

@@ -124,6 +124,14 @@ export default function AddNewFoodCard(props) {
                       accept="image/*"
                     />
                   </div>
+                  {values.foodImage && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={URL.values.foodImage}
+                      alt="preview"
+                      className="w-full h-[150px] object-cover rounded-md border"
+                    />
+                  )}
                 </div>
 
                 <div className="flex justify-end gap-3 w-full h-[64px] items-end">
