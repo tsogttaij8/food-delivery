@@ -1,7 +1,7 @@
 // CategoryWithItems.jsx
 import axios from "axios";
 import { useState, useEffect } from "react";
-import UserFoodCard from "./_components/FoodCard";
+import UserFoodCard from "./_components/UserFoodCard";
 
 export default function CategoryWithItemsUser() {
   const [categoryData, setCategoryData] = useState([]);

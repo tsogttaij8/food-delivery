@@ -3,9 +3,20 @@
 import ChevronRight from "@/app/admin/_icons/ChevronRightGray";
 import MapPin from "@/app/admin/_icons/MapPin";
 import { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 export default function DeliverLocation() {
   const [open, setOpen] = useState(false);
+
+  const deliverySchema = Yup.object().shape({
+    DeliveryLocation: Yup.string().required("Delivery Location is Required!!!"),
+  });
+
+  const handleSubmit = (values) => {
+    console.log("Submitted:", values.DeliveryLocation);
+    setOpen(false);
+  };
 
   return (
     <>
@@ -35,31 +46,49 @@ export default function DeliverLocation() {
           "
           onClick={() => setOpen(false)}
         >
-          <div
-            className="w-[502px] min-h-[280px] p-6 bg-white rounded-xl shadow-xl justify-between flex flex-col"
-            onClick={(e) => e.stopPropagation()}
+          <Formik
+            initialValues={{ DeliveryLocation: "" }}
+            validationSchema={deliverySchema}
+            onSubmit={handleSubmit}
           >
-            <h2 className="text-lg font-semibold mb-4">
-              Please write your delivery address!
-            </h2>
-
-            <textarea
-              className="w-full py-2 px-3 border rounded-md min-h-[80px]"
-              placeholder="Please share your complete address"
-            />
-
-            <div className="flex flex-row gap-4 w-[454px] h-[64px] justify-end  items-end">
-              <button
-                onClick={() => setOpen(false)}
-                className="cursor-pointer text-[14px] bg-white border border-[#E4E4E7] text-black w-[79px] h-[40px] rounded-md"
+            {({ handleSubmit }) => (
+              <Form
+                className="w-[502px] min-h-[280px] p-6 bg-white rounded-xl shadow-xl flex flex-col justify-between"
+                onClick={(e) => e.stopPropagation()}
               >
-                Cancel
-              </button>
-              <button className="cursor-pointer text-[14px] bg-black text-white w-[115px] h-[40px] rounded-md">
-                Deliver Here
-              </button>
-            </div>
-          </div>
+                <h2 className="text-lg font-semibold mb-4">
+                  Please write your delivery address!
+                </h2>
+                <Field
+                  name="DeliveryLocation"
+                  placeholder="Please share your complete address"
+                  className="w-full border rounded-md h-[80px] p-2 "
+                />
+
+                <ErrorMessage
+                  name="DeliveryLocation"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+
+                <div className="flex flex-row gap-4 w-[454px] h-[64px] justify-end items-end mt-4">
+                  <button
+                    type="button"
+                    onClick={() => setOpen(false)}
+                    className="cursor-pointer text-[14px] bg-white border border-[#E4E4E7] text-black w-[79px] h-[40px] rounded-md"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="cursor-pointer text-[14px] bg-black text-white w-[115px] h-[40px] rounded-md"
+                  >
+                    Deliver Here
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
         </div>
       )}
     </>

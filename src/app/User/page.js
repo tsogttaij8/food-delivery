@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import UserFoodCard from "./_components/FoodCard";
+import UserFoodCard from "./_components/UserFoodCard";
 import Header from "./_features/Header";
 import CategoryWithItemsUser from "./CategoryWithItems";
 
