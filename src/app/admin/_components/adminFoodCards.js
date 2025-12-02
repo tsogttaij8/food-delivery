@@ -14,7 +14,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import InstagramIcon from "../_icons/InstagramIcon";
 
 export default function AdminFoodCard({
   foodName,
@@ -44,6 +43,7 @@ export default function AdminFoodCard({
       console.log(id);
       const res = await axios.delete(`http://localhost:1000/food/${id}`);
       console.log("Food deleted successfully:", res.data);
+      setOpen(false);
     } catch (err) {
       console.log("error deleting food:", err);
     }
@@ -82,9 +82,11 @@ export default function AdminFoodCard({
         foodName: values.foodName,
         foodPrice: values.foodPrice,
         foodIngredients: values.foodIngredients,
-        id: id,
         foodImage: imageUrl,
+        category: values.category, // ← энэ байх ёстой
+        id: id,
       };
+
       // const formData = new FormData();
       // formData.append("foodName", values.foodName);
       // formData.append("foodPrice", values.foodPrice);
@@ -165,7 +167,7 @@ export default function AdminFoodCard({
             onSubmit={handleSubmit}
             className=" fixed inset-0 bg-black/40 flex justify-center items-center"
           >
-            {({ setFieldValue }) => (
+            {({ setFieldValue, values }) => (
               <Form className="bg-white p-6 rounded-xl shadow-xl w-[472px] flex flex-col gap-6 relative justify-between">
                 <div className="flex justify-between py-2 items-center">
                   <h2 className="text-xl font-semibold">Add new Dish to</h2>
@@ -206,7 +208,10 @@ export default function AdminFoodCard({
                       </SelectGroup>
                     </SelectContent>
                   </Select> */}
-                  <Select value={category}>
+                  <Select
+                    value={values.category}
+                    onValueChange={(value) => setFieldValue("category", value)}
+                  >
                     <SelectTrigger className="w-[288px]">
                       <SelectValue placeholder="Select Category" />
                     </SelectTrigger>
@@ -216,13 +221,7 @@ export default function AdminFoodCard({
                         <SelectLabel>Categories</SelectLabel>
 
                         {categoryData.map((category) => (
-                          <SelectItem
-                            key={category._id}
-                            value={category._id}
-                            onClick={() =>
-                              setFieldValue("category", category._id)
-                            }
-                          >
+                          <SelectItem key={category._id} value={category._id}>
                             {category.categoryName}
                           </SelectItem>
                         ))}

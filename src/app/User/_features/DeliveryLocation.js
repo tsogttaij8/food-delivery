@@ -15,6 +15,9 @@ export default function DeliverLocation() {
 
   const handleSubmit = (values) => {
     console.log("Submitted:", values.DeliveryLocation);
+
+    localStorage.setItem("deliveryLocation", values.DeliveryLocation);
+
     setOpen(false);
   };
 
@@ -47,7 +50,12 @@ export default function DeliverLocation() {
           onClick={() => setOpen(false)}
         >
           <Formik
-            initialValues={{ DeliveryLocation: "" }}
+            initialValues={{
+              DeliveryLocation:
+                typeof window !== "undefined"
+                  ? localStorage.getItem("deliveryLocation") || ""
+                  : "",
+            }}
             validationSchema={deliverySchema}
             onSubmit={handleSubmit}
           >
