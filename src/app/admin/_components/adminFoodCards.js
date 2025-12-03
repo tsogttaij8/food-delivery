@@ -132,7 +132,7 @@ export default function AdminFoodCard({
           onClick={() => {
             setOpen(true);
           }}
-          className="w-11 h-11 flex items-center justify-center bg-white rounded-full"
+          className="cursor-pointer w-11 h-11 flex items-center justify-center bg-white rounded-full"
         >
           <EditIcon
             onClick={() => {
@@ -295,13 +295,13 @@ export default function AdminFoodCard({
                   <button
                     type="button"
                     onClick={() => handleDelete(id)}
-                    className="w-[48px] h-[40px] border border-red-500 rounded-md flex justify-center items-center "
+                    className="cursor-pointer w-[48px] h-[40px] border border-red-500 rounded-md flex justify-center items-center "
                   >
                     <TrashIcon />
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 rounded-md bg-black text-white"
+                    className="cursor-pointer px-4 py-2 rounded-md bg-black text-white"
                   >
                     Save Changes
                   </button>

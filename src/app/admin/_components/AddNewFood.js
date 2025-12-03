@@ -64,7 +64,7 @@ export default function AddNewFoodCard({ categoryId, categoryName }) {
   };
 
   return (
-    <div className="w-[270px] h-[241px] border rounded-xl border-red-500 flex flex-col justify-center items-center gap-6">
+    <div className=" cursor-pointer w-[270px] h-[241px] border rounded-xl border-red-500 flex flex-col justify-center items-center gap-6">
       <div
         onClick={() => setOpen(true)}
         className="w-10 h-10 rounded-full bg-red-500 flex justify-center items-center"

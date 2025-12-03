@@ -56,7 +56,7 @@ export default function DishesCategoryAdmin() {
         {categoryData.map((item, index) => (
           <div
             key={item._id || index}
-            className="p-2 border rounded-full bg-white border-[#E4E4E7] py-2 px-4 h-9 flex justify-center items-center gap-2"
+            className="cursor-pointer p-2 border rounded-full bg-white border-[#E4E4E7] py-2 px-4 h-9 flex justify-center items-center gap-2"
           >
             {item.categoryName}{" "}
             <div className="bg-black text-white rounded-full text-[12px] min-w-[28px] h-[20px] flex items-center justify-center">
@@ -66,7 +66,7 @@ export default function DishesCategoryAdmin() {
         ))}
         <button
           onClick={() => setOpen(true)}
-          className="w-9 h-9 rounded-full flex items-center justify-center text-white text-2xl bg-red-500"
+          className="cursor-pointer w-9 h-9 rounded-full flex items-center justify-center text-white text-2xl bg-red-500"
         >
           <PlusIcon />
         </button>

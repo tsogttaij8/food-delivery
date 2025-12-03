@@ -24,7 +24,7 @@ export default function LoginPage() {
     try {
       await axios.post("http://localhost:1000/authentication/login", values);
 
-      router.push("/User");
+      router.push("/auth/user");
       console.log("LOGIN FORM DATA:", values);
     } catch (err) {
       console.log(err.response.data);
@@ -89,7 +89,7 @@ export default function LoginPage() {
               <button
                 className="text-blue-600 font-medium hover:underline cursor-pointer"
                 type="button"
-                onClick={() => router.push("/signup")}
+                onClick={() => router.push("/auth/signup")}
               >
                 Sign up
               </button>
