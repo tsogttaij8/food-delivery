@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,9 +30,10 @@ export default function RootLayout({ children }) {
           ${inter.variable}
           ${geistSans.variable}
           ${geistMono.variable}
-          antialiased 
+          antialiased
         `}
       >
+        <Toaster position="top-right" />
         {children}
       </body>
     </html>

@@ -1,70 +1,42 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import PlusIcon from "./_icons/plusIcon";
+import { useFoodCategory } from "../_provider/foodCategory";
 
 export default function DishesCategoryAdmin() {
+  const { categories, loading, createCategory, deleteCategory } =
+    useFoodCategory();
+
   const [open, setOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
-  const [categoryData, setCategoryData] = useState([]);
 
-  const getData = async () => {
-    try {
-      const response = await axios.get("http://localhost:1000/category");
-      setCategoryData(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:1000/category/${id}`);
-      getData();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  // CREATE submit
   const handleSubmit = async () => {
     if (!categoryName.trim()) return;
 
-    try {
-      await axios.post("http://localhost:1000/category", {
-        categoryName: categoryName,
-      });
-      setOpen(false);
-      setCategoryName("");
-    } catch (err) {
-      console.log(err);
-    }
+    await createCategory(categoryName);
+    setOpen(false);
+    setCategoryName("");
   };
-  const totalFoods = categoryData.reduce(
-    (sum, item) => sum + item.foods.length,
-    0
-  );
-  // console.log(categoryData);
 
-  useEffect(() => {
-    getData();
-  }, []);
-  // console.log("CategoryDataCategoryDataCategoryDataCategoryData", categoryData);
+  const totalFoods = categories.reduce((sum, c) => sum + c.foods.length, 0);
 
   return (
     <div className="flex flex-col w-full gap-6 flex-wrap">
       <div className="font-bold text-[20px]">Dishes Category</div>
+
       <div className="flex flex-wrap gap-3 w-full">
         <div className="text-center h-9 min-w-[140px] rounded-full border border-red-500 flex justify-center items-center gap-2">
-          All dishes{" "}
+          All dishes
           <div className="bg-black text-white rounded-full text-[12px] min-w-[28px] h-[20px] flex items-center justify-center">
             {totalFoods}
           </div>
         </div>
-        {categoryData.map((item, index) => (
+
+        {categories.map((item) => (
           <div
-            key={item._id || index}
+            key={item._id}
             className="relative group cursor-pointer p-2 border rounded-full bg-white border-[#E4E4E7] py-2 px-4 h-9 flex justify-center items-center gap-2"
           >
             {item.categoryName}
@@ -73,7 +45,7 @@ export default function DishesCategoryAdmin() {
             </div>
 
             <button
-              onClick={() => handleDelete(item._id)}
+              onClick={() => deleteCategory(item._id)}
               className="absolute -right-3 -top-3 bg-red-500 w-6 h-6 rounded-full text-white text-sm hidden group-hover:flex items-center justify-center"
             >
               ✕
@@ -90,11 +62,10 @@ export default function DishesCategoryAdmin() {
       </div>
 
       {open && (
-        <div className=" fixed inset-0 bg-black/40 flex justify-center items-center">
+        <div className="fixed inset-0 bg-black/40 flex justify-center items-center">
           <div className="bg-white p-6 rounded-xl shadow-xl w-[460px] h-[272px] flex flex-col gap-6 relative justify-between">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold">Add new category</h2>
-
               <button
                 onClick={() => setOpen(false)}
                 className="text-black text-xl hover:text-black w-9 h-9 rounded-full bg-[#F4F4F5]"
@@ -102,8 +73,9 @@ export default function DishesCategoryAdmin() {
                 ✕
               </button>
             </div>
+
             <div className="flex flex-col gap-2">
-              <div className="text-[14px] font">Category name</div>
+              <div className="text-[14px]">Category name</div>
               <input
                 type="text"
                 placeholder="type category name..."

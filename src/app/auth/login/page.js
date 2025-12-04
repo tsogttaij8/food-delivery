@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import LoginLayout from "./LoginLayout";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -22,10 +23,17 @@ export default function LoginPage() {
 
   const handleSubmit = async (values) => {
     try {
-      await axios.post("http://localhost:1000/authentication/login", values);
+      const response = await axios.post(
+        "http://localhost:1000/authentication/login",
+        values
+      );
+      // console.log("response", response);
 
-      router.push("/auth/user");
-      console.log("LOGIN FORM DATA:", values);
+      localStorage.setItem("token", response.data.token);
+      toast.success("Successfully signed in");
+
+      router.push("/");
+      // console.log("LOGIN FORM DATA:", values);
     } catch (err) {
       console.log(err.response.data);
     }
