@@ -20,6 +20,7 @@ export default function CategoryWithItems() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     getData();
   }, []);
+
   // console.log("categoryData", categoryData);
   return (
     <div className="flex flex-col gap-4 w-full min-w-[1123px]">
