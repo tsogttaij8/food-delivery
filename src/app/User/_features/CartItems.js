@@ -10,6 +10,7 @@ export default function CartItems() {
   const [activeTab, setActiveTab] = useState("cart");
   const [cartItems, setCartItems] = useState([]);
   const [deliveryPrice, setDeliveryPrice] = useState(0);
+  const [deliveryLocation, setDeliveryLocation] = useState("");
 
   const increase = (id) => {
     const updated = cartItems.map((item) =>
@@ -66,7 +67,8 @@ export default function CartItems() {
             food: i._id,
             quantity: i.quantity,
           })),
-          totalPrice: totalPrice,
+          totalPrice,
+          deliveryLocation,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -107,6 +109,12 @@ export default function CartItems() {
           setCartItems(withQuantity);
         });
     }
+  }, [open]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("deliveryLocation");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (saved) setDeliveryLocation(saved);
   }, [open]);
 
   useEffect(() => {
@@ -211,7 +219,14 @@ export default function CartItems() {
                   <div className="text-[20px] text-[#71717A] font-bold">
                     Delivery location
                   </div>
-                  <input className="min-h-20 w-full border rounded-20px"></input>
+                  <input
+                    value={deliveryLocation}
+                    onChange={(e) => {
+                      setDeliveryLocation(e.target.value);
+                      localStorage.setItem("deliveryLocation", e.target.value);
+                    }}
+                    className="min-h-20 w-full border rounded-20px"
+                  ></input>
                 </div>
               )}
             </div>
