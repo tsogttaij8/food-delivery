@@ -7,6 +7,7 @@ import TruckIcon from "./_icons/TruckIcon";
 import AvatarIcon from "./_icons/AvatarIcon";
 import DishesCategoryAdmin from "./DishesCategory";
 import CategoryWithItems from "./_components/CategoryWithItems";
+import Orders from "./_features/Orders";
 
 export default function AdminPage() {
   const [activeMenu, setActiveMenu] = useState("food");
@@ -89,20 +90,25 @@ export default function AdminPage() {
               </div>
             </div>
 
-            <div className="flex flex-row bg-[#FFF] justify-between w-full p-4 items-center border-t border-[#E4E4E7] rounded-lg shadow-sm">
-              <div className="flex flex-col">
-                <div className="font-bold text-[20px]">Orders</div>
-                <div className="text-[12px] text-[#71717A]">
-                  Track and manage customer orders
+            <div className="flex flex-col bg-[#FFF] justify-between w-full p-4 items-center border-t border-[#E4E4E7] rounded-lg shadow-sm">
+              <div className="flex flex-row justify-between w-full items-center">
+                <div className="flex flex-col">
+                  <div className="font-bold text-[20px]">Orders</div>
+                  <div className="text-[12px] text-[#71717A]">
+                    Track and manage customer orders
+                  </div>
+                </div>
+                <div className="flex flex-row w-[525px] justify-between">
+                  <div className="w-[300px] h-9 items-center justify-center flex border border-[#E4E4E7] rounded-full">
+                    Calendar
+                  </div>
+                  <div className="w-[213px] h-9 flex items-center justify-center border-[#E4E4E7] rounded-full">
+                    Change Status
+                  </div>
                 </div>
               </div>
-              <div className="flex flex-row w-[525px] justify-between">
-                <div className="w-[300px] h-9 items-center justify-center flex border border-[#E4E4E7] rounded-full">
-                  Calendar
-                </div>
-                <div className="w-[213px] h-9 flex items-center justify-center border-[#E4E4E7] rounded-full">
-                  Change Status
-                </div>
+              <div>
+                <Orders />
               </div>
             </div>
           </div>

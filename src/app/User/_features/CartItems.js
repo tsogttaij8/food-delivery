@@ -5,6 +5,7 @@ import CartIcon from "@/app/admin/_icons/ShoppingCart";
 import CartFoodCard from "../_components/CartFoodCard";
 import axios from "axios";
 import toast from "react-hot-toast";
+import HandingDishIconRed from "../_icons/handinDishIconRed";
 
 export default function CartItems() {
   const [open, setOpen] = useState(false);
@@ -125,6 +126,11 @@ export default function CartItems() {
   }, [open]);
 
   useEffect(() => {
+    if (cartItems.length === 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setDeliveryPrice(0);
+      return;
+    }
     const totalPrice = cartItems.reduce(
       (sum, food) => sum + food.foodPrice * food.quantity,
       0
@@ -199,7 +205,19 @@ export default function CartItems() {
                   <>
                     <div className="text-[20px] text-[#71717A)]">My Cart</div>
                     {cartItems.length === 0 ? (
-                      <p className="text-[#71717A]">No items in cart</p>
+                      <div className="bg-white p-4 rounded-[20px] min-h-40 flex items-center justify-center flex-col gap-1">
+                        {/* <p className="text-[#71717A]">No items in cart</p> */}
+                        <div>
+                          <HandingDishIconRed />
+                        </div>
+                        <div className="text-black text-[16px] font-bold">
+                          Your cart is empty
+                        </div>
+                        <div className="text-[#71717A] text-center w-[400px]">
+                          Hungry? 🍔 Add some delicious dishes to your cart and
+                          satisfy your cravings!
+                        </div>
+                      </div>
                     ) : (
                       <div className="bg-white p-4 rounded-[20px]">
                         <div className="flex flex-col gap-5">
