@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import CartIcon from "@/app/admin/_icons/ShoppingCart";
 import CartFoodCard from "../_components/CartFoodCard";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function CartItems() {
   const [open, setOpen] = useState(false);
@@ -48,9 +49,9 @@ export default function CartItems() {
   const handleOrder = async () => {
     const token = localStorage.getItem("token");
     console.log("Token from localStorage:", token);
-    if (!token) return alert("Та нэвтэрсэн байх шаардлагатай");
+    if (!token) return alert("Ta newterj orno uu");
 
-    if (!cartItems || cartItems.length === 0) return alert("Cart хоосон байна");
+    if (!cartItems || cartItems.length === 0) return alert("Cart empty!!!");
 
     const itemsTotalAmount = cartItems.reduce(
       (sum, i) => sum + i.foodPrice * i.quantity,
@@ -75,6 +76,12 @@ export default function CartItems() {
         }
       );
       console.log("Order created:", res.data);
+      localStorage.removeItem("cart");
+      setCartItems([]);
+      setDeliveryPrice(0);
+      toast.success("Order Successfully created!");
+      setOpen(false);
+      //
     } catch (err) {
       console.error(
         "Order error:",
@@ -136,7 +143,6 @@ export default function CartItems() {
 
   return (
     <div>
-      {/* Cart Icon */}
       <div
         onClick={() => setOpen(true)}
         className="cursor-pointer w-9 h-9 flex items-center justify-center bg-white rounded-full"
@@ -144,7 +150,6 @@ export default function CartItems() {
         <CartIcon />
       </div>
 
-      {/* Drawer */}
       {open && (
         <div
           className="fixed inset-0 bg-black/40 flex justify-end z-50"
@@ -187,12 +192,14 @@ export default function CartItems() {
                 Order
               </div>
             </div>
+
             <div className="flex flex-col overflow-y-auto bg-white rounded-xl">
-              <div className="flex-1 overflow-y-auto text-white ">
+              <div className="flex-1 overflow-y-auto text-white h-full ">
                 {activeTab === "cart" && (
                   <>
+                    <div className="text-[20px] text-[#71717A)]">My Cart</div>
                     {cartItems.length === 0 ? (
-                      <p>No items in cart</p>
+                      <p className="text-[#71717A]">No items in cart</p>
                     ) : (
                       <div className="bg-white p-4 rounded-[20px]">
                         <div className="flex flex-col gap-5">
@@ -257,7 +264,7 @@ export default function CartItems() {
                 </div>
                 <div
                   onClick={handleOrder}
-                  className="w-full h-11 bg-red-500 text-white rounded-full flex items-center justify-center"
+                  className="cursor-pointer w-full h-11 bg-red-500 text-white rounded-full flex items-center justify-center"
                 >
                   Checkout
                 </div>
