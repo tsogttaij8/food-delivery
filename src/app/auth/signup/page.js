@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -73,7 +73,6 @@ export default function SignUpPage() {
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center gap-12 bg-white p-6">
-      <Toaster position="top-right" reverseOrder={false} />
       <Formik
         initialValues={{
           email: "",

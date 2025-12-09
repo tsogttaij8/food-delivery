@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -43,8 +43,6 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center gap-12 bg-white p-6">
-      <Toaster position="top-right" reverseOrder={false} />
-
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}

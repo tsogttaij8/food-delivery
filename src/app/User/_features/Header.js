@@ -1,9 +1,12 @@
+"use client";
+
 import HeaderIcon from "../../admin/_icons/HeaderIcon";
-import UserIcon from "../../admin/_icons/User";
+import HeaderAccount from "./Account";
 import CartItems from "./CartItems";
 import DeliverLocation from "./DeliveryLocation";
 
 export default function Header() {
+  const token = localStorage.getItem("token");
   return (
     <div className="w-full h-[172px] bg-[#18181B] flex flex-row justify-between items-center p-22">
       <div
@@ -21,13 +24,23 @@ export default function Header() {
         </div>
       </div>
       <div className="flex flex-row items-center">
-        <div className="flex gap-3">
-          <DeliverLocation />
-          <CartItems />
-
-          <div className="w-9 h-9 flex items-center justify-center bg-red-500 rounded-full">
-            <UserIcon />
-          </div>
+        <div className="">
+          {token ? (
+            <div className="flex gap-3">
+              <DeliverLocation />
+              <CartItems />
+              <HeaderAccount />
+            </div>
+          ) : (
+            <div className="flex flex-row gap-4">
+              <div className="cursor-pointer h-9 bg-white text-black flex justify-center items-center rounded-full px-3 py-2">
+                Sign Up
+              </div>
+              <div className="cursor-pointer h-9 bg-red-500 text-white flex items-center justify-center rounded-full px-3 py-2">
+                Login
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

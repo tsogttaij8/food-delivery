@@ -2,12 +2,13 @@
 
 import ChevronRight from "@/app/admin/_icons/ChevronRightGray";
 import MapPin from "@/app/admin/_icons/MapPin";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 export default function DeliverLocation() {
   const [open, setOpen] = useState(false);
+  const [location, setLocation] = useState("");
 
   const deliverySchema = Yup.object().shape({
     DeliveryLocation: Yup.string().required("Delivery Location is Required!!!"),
@@ -15,26 +16,37 @@ export default function DeliverLocation() {
 
   const handleSubmit = (values) => {
     console.log("Submitted:", values.DeliveryLocation);
+    setLocation(values.DeliveryLocation);
 
     localStorage.setItem("deliveryLocation", values.DeliveryLocation);
 
     setOpen(false);
   };
 
+  useEffect(() => {
+    const savedLocation = localStorage.getItem("deliveryLocation");
+    if (savedLocation) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLocation(savedLocation);
+    }
+  }, []);
+
   return (
     <>
-      <div className="cursor-pointer w-[251px] h-9 bg-white rounded-full flex items-center gap-1 justify-center">
-        <div className="w-5 h-5">
-          <MapPin />
+      <div className="cursor-pointer py-2 px-3 min-w-[200px] h-9 bg-white rounded-full flex items-center gap-2 justify-center">
+        <div className="flex gap-px">
+          <div className="w-5 h-5">
+            <MapPin />
+          </div>
+
+          <span className="text-red-500 text-[12px]">Delivery address: </span>
         </div>
 
-        <span className="text-red-500 text-[12px]">Delivery address:</span>
-
-        <div
-          className="flex items-center text-[12px] text-[#71717A]"
-          onClick={() => setOpen(true)}
-        >
-          Add Location <ChevronRight />
+        <div onClick={() => setOpen(true)} className="flex gap-px">
+          <div className="flex items-center text-[12px] text-[#71717A]">
+            {location ? location : "Add Location"}
+          </div>
+          <ChevronRight />
         </div>
       </div>
 
