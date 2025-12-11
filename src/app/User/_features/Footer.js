@@ -2,17 +2,18 @@
 
 import HeaderIcon from "@/app/admin/_icons/HeaderIcon";
 import FooterBanner from "./FooterBanner";
-import FacebookIcon from "../_icons/FacebookIcon";
+import FacebookIcon from "../_icons/Facebook";
 import InstagramIcon from "../_icons/InstagramIcon";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { BACK_END_URL } from "@/app/_constants";
 
 export default function Footer() {
   const [categories, setCategories] = useState([]);
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:1000/category");
+      const response = await axios.get(`${BACK_END_URL}/category`);
       setCategories(response.data);
     } catch (err) {
       console.log(err);

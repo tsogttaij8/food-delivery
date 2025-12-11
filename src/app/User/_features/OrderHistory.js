@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import OrderHistoryCard from "../_components/OrderHistoryCard";
 import axios from "axios";
+import { BACK_END_URL } from "@/app/_constants";
 
 export default function OrderHistory() {
   const token = localStorage.getItem("token");
@@ -13,7 +14,7 @@ export default function OrderHistory() {
   const getOrder = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get("http://localhost:1000/orders/user", {
+      const res = await axios.get(`${BACK_END_URL}/orders/user`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -22,10 +23,10 @@ export default function OrderHistory() {
       console.log(err);
     }
   };
-  
+
   const getFoods = async () => {
     try {
-      const res = await axios.get("http://localhost:1000/food");
+      const res = await axios.get(`${BACK_END_URL}/food`);
       setFoods(res.data);
     } catch (err) {
       console.log(err);

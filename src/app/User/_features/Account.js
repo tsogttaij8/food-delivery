@@ -1,5 +1,6 @@
 "use client";
 
+import { BACK_END_URL } from "@/app/_constants";
 import UserIcon from "@/app/admin/_icons/User";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -23,7 +24,7 @@ export default function HeaderAccount() {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await axios.get("http://localhost:1000/user/me", {
+      const response = await axios.get(`${BACK_END_URL}/user/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

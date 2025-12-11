@@ -7,6 +7,7 @@ import axios from "axios";
 import HandingDishIconRed from "../_icons/handinDishIconRed";
 import { toast, ToastContainer } from "react-toastify";
 import OrderHistory from "./OrderHistory";
+import { BACK_END_URL } from "@/app/_constants";
 
 const getDeliveryPrice = (amount) => (amount < 50000 ? 15000 : 7500);
 
@@ -23,6 +24,7 @@ export default function CartItems() {
   const [cartItems, setCartItems] = useState([]);
   const [deliveryPrice, setDeliveryPrice] = useState(0);
   const [deliveryLocation, setDeliveryLocation] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const updateQuantity = (id, change) => {
     const updated = cartItems.map((item) =>
@@ -42,7 +44,7 @@ export default function CartItems() {
 
   const handleOrder = async () => {
     const token = localStorage.getItem("token");
-    if (!token) return alert("Ta newterj orno uu");
+    if (!token) return toast.error("ta newterj orno uu?");
     if (cartItems.length === 0) return toast.warn("Hool nemne uu!!");
 
     const itemsTotal = cartItems.reduce(
@@ -53,8 +55,9 @@ export default function CartItems() {
     const totalPrice = itemsTotal + getDeliveryPrice(itemsTotal);
 
     try {
+      setIsLoading(true);
       await axios.post(
-        "http://localhost:1000/orders",
+        `${BACK_END_URL}/orders`,
         {
           FoodOrderItems: cartItems.map((i) => ({
             food: i._id,
@@ -73,12 +76,14 @@ export default function CartItems() {
       setDeliveryPrice(0);
       toast.success("Order Successfully created!");
       setOpen(false);
+      setIsLoading(false);
     } catch (err) {
       console.error("Order error:", err.response?.data || err.message);
+      toast.error("order uusgehed aldaa garlaa! dahin oroldono uu");
+      setIsLoading(false);
     }
   };
 
-  // Load cart + deliveryLocation when sidebar opens
   useEffect(() => {
     if (!open) return;
 
@@ -94,7 +99,7 @@ export default function CartItems() {
       return;
     }
 
-    fetch("http://localhost:1000/food/get-by-ids", {
+    fetch(`${BACK_END_URL}/food/get-by-ids`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ids: stored.map((i) => i._id) }),
@@ -109,7 +114,6 @@ export default function CartItems() {
       });
   }, [open]);
 
-  // Calculate delivery price when cart changes
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (cartItems.length === 0) return setDeliveryPrice(0);
@@ -122,7 +126,6 @@ export default function CartItems() {
     setDeliveryPrice(getDeliveryPrice(itemsTotal));
   }, [cartItems]);
 
-  // Totals
   const itemsTotalAmount = cartItems.reduce(
     (acc, cur) => acc + cur.foodPrice * cur.quantity,
     0
@@ -260,12 +263,16 @@ export default function CartItems() {
                     <div className="text-black">{totalAmount}₮</div>
                   </div>
 
-                  <div
+                  <button
                     onClick={handleOrder}
+                    disabled={isLoading}
                     className="cursor-pointer w-full h-11 bg-red-500 text-white rounded-full flex items-center justify-center"
                   >
-                    Checkout
-                  </div>
+                    {isLoading && (
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    )}
+                    {isLoading ? "" : "Checkout"}
+                  </button>
                 </div>
               </div>
             )}

@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { BACK_END_URL } from "../_constants";
 
 const FoodCategoryContext = createContext(null);
 
@@ -23,7 +24,7 @@ export const FoodCategoryProvider = ({ children }) => {
   const fetchCategories = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:1000/category");
+      const response = await axios.get(`${BACK_END_URL}/category`);
       setCategories(response.data);
     } catch (err) {
       console.log(err);
@@ -36,7 +37,7 @@ export const FoodCategoryProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("token") || "";
       await axios.post(
-        "http://localhost:1000/category",
+        `${BACK_END_URL}/category`,
         { categoryName: name },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -51,7 +52,7 @@ export const FoodCategoryProvider = ({ children }) => {
 
   const deleteCategory = async (id) => {
     try {
-      await axios.delete(`http://localhost:1000/category/${id}`);
+      await axios.delete(`${BACK_END_URL}/category/${id}`);
       toast.success("Category deleted!");
       fetchCategories();
     } catch (err) {

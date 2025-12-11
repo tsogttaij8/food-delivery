@@ -3,6 +3,7 @@
 import { useState } from "react";
 import PlusIcon from "./_icons/plusIcon";
 import { useFoodCategory } from "../_provider/foodCategory";
+import { Island_Moments } from "next/font/google";
 
 export default function DishesCategoryAdmin() {
   const { categories, loading, createCategory, deleteCategory } =
@@ -10,13 +11,16 @@ export default function DishesCategoryAdmin() {
 
   const [open, setOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     if (!categoryName.trim()) return;
 
     await createCategory(categoryName);
     setOpen(false);
     setCategoryName("");
+    setIsLoading(false);
   };
 
   const totalFoods = categories.reduce((sum, c) => sum + c.foods.length, 0);
@@ -26,7 +30,7 @@ export default function DishesCategoryAdmin() {
       <div className="font-bold text-[20px]">Dishes Category</div>
 
       <div className="flex flex-wrap gap-3 w-full">
-        <div className="text-center h-9 min-w-[140px] rounded-full border border-red-500 flex justify-center items-center gap-2">
+        <div className="text-center h-9 min-w-[140px] rounded-full border flex justify-center items-center gap-2">
           All dishes
           <div className="bg-black text-white rounded-full text-[12px] min-w-[28px] h-[20px] flex items-center justify-center">
             {totalFoods}
@@ -86,10 +90,15 @@ export default function DishesCategoryAdmin() {
 
             <div className="flex justify-end gap-3">
               <button
+                disabled={isLoading}
                 onClick={handleSubmit}
-                className="px-4 py-2 rounded-md bg-black text-white"
+                className="px-4 py-2 rounded-md bg-black text-white h-10 w-[130px] flex justify-center items-center"
               >
-                Add category
+                {isLoading ? (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  "Add category"
+                )}
               </button>
             </div>
           </div>

@@ -8,7 +8,15 @@ export default function OrderHistoryCard({ order, foods = [] }) {
           <div className="text-black text-[16px]">{order.totalPrice}₮</div>
           <div className="text-black text-[16px]">#{order.orderNumber}</div>
         </div>
-        <div className="rounded-full border border-red-500 text-black px-[10px] py-1">
+        <div
+          className={`h-[32px] min-w-[94px] text-black cursor-pointer flex items-center justify-center gap-[10px] border rounded-full px-[10px] ${
+            order.status === "pending"
+              ? "border-[#EF4444]"
+              : order.status === "delivered"
+              ? "border-[#18BA51]"
+              : "border-gray-300"
+          }`}
+        >
           {order.status}
         </div>
       </div>
@@ -17,9 +25,7 @@ export default function OrderHistoryCard({ order, foods = [] }) {
           const currentFood = foods.find((food) => food._id === item?.food._id);
           return (
             <div className="flex justify-between" key={index}>
-              <div className="text-[#71717A]">
-                {currentFood?.foodName || "Unknown food"}
-              </div>
+              <div className="text-[#71717A]">{currentFood?.foodName}</div>
               <div className="text-black">x {item.quantity}</div>
             </div>
           );

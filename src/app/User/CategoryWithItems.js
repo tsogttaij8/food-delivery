@@ -1,14 +1,14 @@
-// CategoryWithItems.jsx
 import axios from "axios";
 import { useState, useEffect } from "react";
 import UserFoodCard from "./_components/UserFoodCard";
+import { BACK_END_URL } from "../_constants";
 
 export default function CategoryWithItemsUser() {
   const [categoryData, setCategoryData] = useState([]);
 
   const getData = async () => {
     try {
-      const response = await axios.get("http://localhost:1000/category");
+      const response = await axios.get(`${BACK_END_URL}/category`);
       setCategoryData(response.data);
     } catch (err) {
       console.log(err);
@@ -33,7 +33,7 @@ export default function CategoryWithItemsUser() {
 
           <div className="grid grid-cols-3 gap-9">
             {item.foods.map((food) => (
-              <UserFoodCard key={food._id} {...food} />
+              <UserFoodCard key={food._id} {...food} getData={getData} />
             ))}
           </div>
         </div>

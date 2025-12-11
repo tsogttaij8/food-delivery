@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { BACK_END_URL } from "@/app/_constants";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function LoginPage() {
   const handleSubmit = async (values) => {
     try {
       const response = await axios.post(
-        "http://localhost:1000/authentication/login",
+        `${BACK_END_URL}/authentication/login`,
         values
       );
 
@@ -52,7 +53,6 @@ export default function LoginPage() {
       >
         {({ errors, values, setFieldValue }) => (
           <Form className="flex flex-col gap-6 w-[416px]">
-            {/* Back Button */}
             <div
               className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100 cursor-pointer"
               onClick={() => router.back()}
@@ -60,7 +60,6 @@ export default function LoginPage() {
               <ChevronLeft />
             </div>
 
-            {/* Title */}
             <div className="flex flex-col gap-1">
               <h1 className="text-2xl font-bold text-black">Login</h1>
               <p className="text-sm text-gray-500">
@@ -68,7 +67,6 @@ export default function LoginPage() {
               </p>
             </div>
 
-            {/* Email */}
             <Field>
               <Input
                 id="email"
@@ -78,7 +76,6 @@ export default function LoginPage() {
               />
             </Field>
 
-            {/* Password */}
             <Field>
               <Input
                 id="password"
@@ -89,14 +86,12 @@ export default function LoginPage() {
               />
             </Field>
 
-            {/* Validation Errors */}
             {(errors.email || errors.password) && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.email || errors.password}
               </p>
             )}
 
-            {/* Forgot Password */}
             <div className="flex justify-between items-center text-sm mt-1">
               <button
                 className="text-blue-600 hover:underline"
@@ -107,7 +102,6 @@ export default function LoginPage() {
               </button>
             </div>
 
-            {/* Submit Button */}
             <Button
               className="w-full h-10 bg-black text-white rounded-md font-medium hover:bg-gray-900 transition-colors mt-2"
               type="submit"
@@ -115,7 +109,6 @@ export default function LoginPage() {
               Login
             </Button>
 
-            {/* Sign up */}
             <div className="text-sm text-gray-600 mt-4 text-center">
               Don’t have an account?{" "}
               <button
@@ -130,7 +123,6 @@ export default function LoginPage() {
         )}
       </Formik>
 
-      {/* Right Side Poster */}
       <div className="hidden md:block">
         <Image
           src="/SignUpPoster.png"

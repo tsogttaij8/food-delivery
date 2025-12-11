@@ -8,6 +8,7 @@ import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { BACK_END_URL } from "@/app/_constants";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -37,7 +38,6 @@ export default function SignUpPage() {
       return;
     }
 
-    // Step 2 validation
     try {
       await Yup.object({
         password: Yup.string()
@@ -56,15 +56,13 @@ export default function SignUpPage() {
       return;
     }
 
-    // Сервер рүү илгээх
     try {
-      await axios.post("http://localhost:1000/authentication/sign-up", values);
+      await axios.post(`${BACK_END_URL}/authentication/sign-up`, values);
       toast.success("Амжилттай бүртгэгдлээ!");
       router.push("/auth/login");
     } catch (err) {
-      // Email аль хэдийн байна
       if (err.response && err.response.data) {
-        toast.error(err.response.data); // backend-с ирсэн "User not found" эсвэл "Email required"
+        toast.error(err.response.data);
       } else {
         toast.error("Бүртгэл амжилтгүй боллоо, дахин оролдоно уу");
       }
@@ -87,7 +85,6 @@ export default function SignUpPage() {
       >
         {({ errors, values, setFieldValue }) => (
           <Form className="flex flex-col gap-6 w-[416px]">
-            {/* Back Button */}
             <div
               className="w-9 h-9 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100 cursor-pointer"
               onClick={() => router.back()}
@@ -95,7 +92,6 @@ export default function SignUpPage() {
               <ChevronLeft />
             </div>
 
-            {/* Step 1 */}
             {step === 1 && (
               <>
                 <div className="flex flex-col gap-1">
@@ -140,7 +136,6 @@ export default function SignUpPage() {
               </>
             )}
 
-            {/* Step 2 */}
             {step === 2 && (
               <>
                 <div className="flex flex-col gap-1">

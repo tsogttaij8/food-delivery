@@ -1,15 +1,16 @@
 // CategoryWithItems.jsx
 import axios from "axios";
 import { useState, useEffect } from "react";
-import AddNewFoodCard from "./AddNewFood";
-import AdminFoodCard from "./adminFoodCards";
+import AddNewFoodCard from "../_components/AddNewFood";
+import AdminFoodCard from "../_components/adminFoodCards";
+import { BACK_END_URL } from "@/app/_constants";
 
 export default function CategoryWithItems() {
   const [categoryData, setCategoryData] = useState([]);
 
   const getData = async () => {
     try {
-      const response = await axios.get("http://localhost:1000/category");
+      const response = await axios.get(`${BACK_END_URL}/category`);
       setCategoryData(response.data);
     } catch (err) {
       console.log(err);

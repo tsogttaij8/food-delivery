@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { BACK_END_URL } from "@/app/_constants";
 
 export default function AdminFoodCard({
   foodName,
@@ -43,7 +44,7 @@ export default function AdminFoodCard({
   const handleDelete = async (id) => {
     try {
       console.log(id);
-      const res = await axios.delete(`http://localhost:1000/food/${id}`);
+      const res = await axios.delete(`${BACK_END_URL}/food/${id}`);
       toast.success("Hool amjilttai ustglaa");
       setOpen(false);
       router.refresh();
@@ -88,7 +89,7 @@ export default function AdminFoodCard({
         id: id,
       };
 
-      const res = await axios.put("http://localhost:1000/food", formData, {
+      const res = await axios.put(`${BACK_END_URL}/food`, formData, {
         headers: { "Content-Type": "application/json" },
       });
 

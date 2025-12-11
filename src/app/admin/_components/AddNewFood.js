@@ -7,10 +7,12 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { BACK_END_URL } from "@/app/_constants";
 
 export default function AddNewFoodCard({ categoryId, categoryName }) {
   const [open, setOpen] = useState(false);
   const [preview, setPreview] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const foodSchema = Yup.object().shape({
     foodName: Yup.string().required("Food Name Required!"),
@@ -46,9 +48,10 @@ export default function AddNewFoodCard({ categoryId, categoryName }) {
 
   const handleSubmit = async (values) => {
     try {
+      setIsLoading(true);
       const imageUrl = await uploadToCloudinary(values.foodImage);
 
-      await axios.post("http://localhost:1000/food", {
+      await axios.post(`${BACK_END_URL}/food`, {
         foodName: values.foodName,
         foodPrice: values.foodPrice,
         foodIngredients: values.foodIngredients,
@@ -58,9 +61,11 @@ export default function AddNewFoodCard({ categoryId, categoryName }) {
       toast.success("Hool amilttai nemegdlee");
       setOpen(false);
       setPreview(null);
+      setIsLoading(false);
     } catch (err) {
       console.error(err);
       toast.error("hool nemehed aldaa garlaa , dahin oroldono uu");
+      setIsLoading(false);
     }
   };
 
@@ -185,10 +190,14 @@ export default function AddNewFoodCard({ categoryId, categoryName }) {
 
                 <div className="flex justify-end gap-3 w-full h-[64px] items-end">
                   <button
+                    disabled={isLoading}
                     type="submit"
-                    className="px-4 py-2 rounded-md bg-black text-white"
+                    className="px-4 py-2 rounded-md bg-black text-white w-[98px] h-10 flex justify-center items-center"
                   >
-                    Add Dish
+                    {isLoading && (
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    )}
+                    {isLoading ? "" : "Add Dish"}
                   </button>
                 </div>
               </Form>

@@ -52,7 +52,6 @@ export default function DeliverLocation() {
         </div>
       </div>
 
-      {/* MODAL */}
       {open && (
         <div
           className="

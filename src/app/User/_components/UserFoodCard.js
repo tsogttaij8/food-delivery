@@ -7,6 +7,7 @@ import QuantityMinusIcon from "../_icons/quantityMinusIcon";
 import QuantityPlusIcon from "../_icons/quantityPlusIcon";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { CheckIcon } from "lucide-react";
 
 export default function UserFoodCard({
   foodName,
@@ -14,11 +15,27 @@ export default function UserFoodCard({
   foodIngredients,
   foodImage,
   _id,
+  getData,
 }) {
   const [open, setOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [loginRequired, setLoginRequired] = useState(false);
   const router = useRouter();
+
+  const [inCart, setInCart] = useState(
+    !!(JSON.parse(localStorage.getItem("cart")) || []).find(
+      (item) => item._id === _id
+    )
+  );
+
+  const removeFromCart = (_id) => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const updatedCart = cart.filter((item) => item._id !== _id);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    toast.info("Хоол cart-аас хасагдлаа");
+    setInCart(false);
+    getData();
+  };
 
   const token = localStorage.getItem("token");
 
@@ -29,7 +46,7 @@ export default function UserFoodCard({
 
   const addToCart = () => {
     if (!token) {
-      // toast.error("Ta newterj orno uu!");
+      toast.error("Ta newterj orno uu!");
       setLoginRequired(true);
       return;
     }
@@ -41,10 +58,13 @@ export default function UserFoodCard({
     } else {
       cart.push({ _id, quantity });
       toast.success("hool amjilttai sagsand nemegdlee");
+      setQuantity(1);
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
     setOpen(false);
+    setInCart(true);
+    getData();
   };
 
   return (
@@ -53,11 +73,25 @@ export default function UserFoodCard({
         style={{ backgroundImage: `url(${foodImage})` }}
         className="h-[210px] bg-cover rounded-xl bg-center p-5 flex justify-end items-end"
       >
-        <div
-          onClick={() => setOpen(true)}
-          className="cursor-pointer w-11 h-11 rounded-full flex justify-center items-center bg-white"
-        >
-          <PlusIcon />
+        <div className="cursor-pointer">
+          {!inCart ? (
+            <div
+              onClick={() => setOpen(true)}
+              className="w-11 h-11 rounded-full bg-white flex justify-center items-center"
+            >
+              <PlusIcon className />
+            </div>
+          ) : (
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                removeFromCart(_id);
+              }}
+              className="w-11 h-11 rounded-full bg-black flex justify-center items-center"
+            >
+              <CheckIcon className="text-white" />
+            </div>
+          )}
         </div>
       </div>
 

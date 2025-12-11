@@ -1,0 +1,43 @@
+// Бүх радио button-уудыг олох
+const radioButtons = document.querySelectorAll('div[role="radio"]');
+
+// Бүрэн санал нийлнэ гэж сонгогдсон товчийг олж товших
+radioButtons.forEach(radio => {
+    if (radio.getAttribute('aria-label')?.includes("Бүрэн санал нийлнэ")) {
+        radio.click(); // click event trigger
+        console.log('Clicked:', radio.getAttribute('aria-label'));
+    }
+});
+
+
+
+function rand(n) { 
+    return Math.floor(Math.random() * n); 
+}
+
+// Multiple choice (radio) сонгох
+document.querySelectorAll(".docssharedWizToggleLabeledContainer").forEach(q => {
+    const choices = q.querySelectorAll("div[role='radio']");
+    if (choices.length > 0) {
+        choices[rand(choices.length)].click();
+    }
+});
+
+// Checkbox random түмэн сонголт
+document.querySelectorAll("div[role='checkbox']").forEach(ch => {
+    // 50% магадлалтай random check/uncheck
+    if (Math.random() > 0.5) ch.click();
+});
+
+// Dropdown random сонголт
+document.querySelectorAll("div[role='listbox']").forEach(dd => {
+    dd.click();
+    setTimeout(() => {
+        const opts = dd.querySelectorAll("div[role='option']");
+        if (opts.length > 0) {
+            opts[rand(opts.length)].click();
+        }
+    }, 200); // 200ms бага хугацаа тохируулж болно
+});
+
+console.log("🎉 RANDOM бөглөлт дууслаа!");
