@@ -24,7 +24,6 @@ export default function OrderInfo({
     getOrders,
     selectedOrders,
     toggleSelectOrder,
-    refreshSignal,
   } = useOrders();
 
   const order = orders.find((o) => o._id === _id);

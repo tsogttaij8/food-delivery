@@ -15,6 +15,7 @@ export default function Header() {
     // Only access localStorage in the browser
     if (typeof window !== "undefined") {
       const storedToken = localStorage.getItem("token");
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setToken(storedToken);
     }
   }, []);
