@@ -119,7 +119,7 @@ export default function SignUpPage() {
 
                 <button
                   type="submit"
-                  className="w-full h-10 bg-black text-white rounded-md mt-2"
+                  className="w-full h-10 bg-black text-white rounded-md mt-2 cursor-pointer"
                 >
                   Next
                 </button>
@@ -187,14 +187,14 @@ export default function SignUpPage() {
                   <button
                     type="button"
                     onClick={() => setStep(1)}
-                    className="w-full h-10 border border-gray-300 text-black rounded-md"
+                    className="w-full h-10 border border-gray-300 text-black rounded-md cursor-pointer"
                   >
                     Back
                   </button>
 
                   <button
                     type="submit"
-                    className="w-full h-10 bg-black text-white rounded-md"
+                    className="w-full h-10 bg-black text-white rounded-md cursor-pointer"
                   >
                     Finish
                   </button>

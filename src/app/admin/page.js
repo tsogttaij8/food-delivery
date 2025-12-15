@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeaderIcon from "./_icons/HeaderIcon";
 import FoodMenuAdmin from "./_icons/MenuIcon";
 import TruckIcon from "./_icons/TruckIcon";
@@ -19,8 +19,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown, Loader2 } from "lucide-react";
 import OrderInfo from "./_components/OrderInfoFoodCard";
+import { jwtDecode } from "jwt-decode";
 
 export default function AdminPage() {
   const [activeMenu, setActiveMenu] = useState("food");
@@ -28,6 +29,8 @@ export default function AdminPage() {
   const [selectedStatus, setSelectedStatus] = useState("");
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [localDate, setLocalDate] = useState({ start: null, end: null });
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const {
     selectedOrders,
@@ -43,6 +46,24 @@ export default function AdminPage() {
     sortType,
     filterDates,
   } = useOrders();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedToken = localStorage.getItem("token");
+      if (!savedToken) {
+        window.location.href = "/auth/login";
+      } else {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setToken(jwtDecode(savedToken));
+        setLoading(false);
+      }
+      // if (token) {
+      //   const payload = JSON.parse(atob(token.split(".")[1]));
+      //   if (payload.role !== "admin") {
+      //   }
+      // }
+    }
+  }, []);
 
   const updateOrdersStatus = async () => {
     try {
@@ -92,6 +113,23 @@ export default function AdminPage() {
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
   const currentItems = sortedOrders.slice(indexOfFirst, indexOfLast);
+
+  if (loading) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center ">
+        <Loader2 className="animate-spin" />
+      </div>
+    );
+  }
+  if (token?.role !== "admin") {
+    return (
+      <div className="w-full h-screen flex justify-center items-center ">
+        <p className="font-semibold">
+          Fuck your sputid ass out of here. its not your place to be scumbag
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-[#F4F4F5]">

@@ -143,11 +143,11 @@ export default function CartItems() {
 
       {open && (
         <div
-          className="fixed inset-0 bg-black/40 flex justify-end z-50"
+          className="fixed inset-0 bg-black/40 flex justify-end z-50 scroll-auto"
           onClick={() => setOpen(false)}
         >
           <div
-            className="h-screen w-[600px] bg-neutral-700 p-8 flex flex-col gap-6"
+            className="h-screen w-[600px] bg-neutral-700 p-8 flex flex-col gap-6 overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center">

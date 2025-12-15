@@ -28,10 +28,15 @@ export default function LoginPage() {
         `${BACK_END_URL}/authentication/login`,
         values
       );
+      console.log(response);
 
       localStorage.setItem("token", response.data.token);
       toast.success("Amjilttai newterlee!");
-      router.push("/");
+      if (response.data.user.role === "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
     } catch (err) {
       console.log(err.response?.data);
       if (err.response?.data) {
@@ -103,7 +108,7 @@ export default function LoginPage() {
             </div>
 
             <Button
-              className="w-full h-10 bg-black text-white rounded-md font-medium hover:bg-gray-900 transition-colors mt-2"
+              className="w-full h-10 bg-black text-white rounded-md font-medium hover:bg-gray-900 transition-colors mt-2 cursor-pointer"
               type="submit"
             >
               Login

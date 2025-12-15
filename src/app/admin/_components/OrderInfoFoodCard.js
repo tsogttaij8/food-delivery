@@ -6,6 +6,7 @@ import { ChevronsUpDown, ChevronDown } from "lucide-react";
 import { toast } from "react-toastify";
 import { useOrders } from "@/app/_provider/ordersProvider";
 import { BACK_END_URL } from "@/app/_constants";
+import Image from "next/image";
 
 export default function OrderInfo({
   _id,
@@ -77,7 +78,7 @@ export default function OrderInfo({
               {FoodOrderItems?.map((faa) => {
                 const food = foods.find((f) => f._id === faa.food._id);
                 return (
-                  <div key={faa._id} className="flex items-center gap-3 py-1">
+                  <div key={food._id} className="flex items-center gap-3 py-1">
                     <img
                       src={food?.foodImage}
                       className="w-8 h-8 rounded object-cover"

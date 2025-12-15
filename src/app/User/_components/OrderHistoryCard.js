@@ -22,7 +22,9 @@ export default function OrderHistoryCard({ order, foods = [] }) {
       </div>
       <div className="flex flex-col gap-[10px]">
         {order.FoodOrderItems.map((item, index) => {
-          const currentFood = foods.find((food) => food._id === item?.food._id);
+          const currentFood = foods.find(
+            (food) => food._id === item?.food?._id
+          );
           return (
             <div className="flex justify-between" key={index}>
               <div className="text-[#71717A]">{currentFood?.foodName}</div>
