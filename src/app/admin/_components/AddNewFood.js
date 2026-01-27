@@ -28,12 +28,12 @@ export default function AddNewFoodCard({ categoryId, categoryName }) {
 
     const data = new FormData();
     data.append("file", file);
-    data.append("upload_preset", "ml_default");
+    data.append("upload_preset", "food_upload");
 
-    const CLOUD_NAME = "dkrwhhldd";
+    const CLOUD_NAME = "dme4kkk05";
     const res = await fetch(
       `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-      { method: "POST", body: data }
+      { method: "POST", body: data },
     );
 
     const json = await res.json();

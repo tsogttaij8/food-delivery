@@ -72,8 +72,8 @@ export default function AdminPage() {
           axios.put(`${BACK_END_URL}/orders/${orderId}/status`, {
             status: selectedStatus,
             foodIds: [],
-          })
-        )
+          }),
+        ),
       );
 
       await getOrders();
@@ -121,15 +121,15 @@ export default function AdminPage() {
       </div>
     );
   }
-  if (token?.role !== "admin") {
-    return (
-      <div className="w-full h-screen flex justify-center items-center ">
-        <p className="font-semibold">
-          Fuck your sputid ass out of here. its not your place to be scumbag
-        </p>
-      </div>
-    );
-  }
+  // if (token?.role !== "admin") {
+  //   return (
+  //     <div className="w-full h-screen flex justify-center items-center ">
+  //       <p className="font-semibold">
+  //         Fuck your sputid ass out of here. its not your place to be scumbag
+  //       </p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="flex min-h-screen bg-[#F4F4F5]">
@@ -259,7 +259,7 @@ export default function AdminPage() {
                         onChange={(e) => {
                           if (e.target.checked) {
                             setSelectedOrders(
-                              currentItems.map((order) => order._id)
+                              currentItems.map((order) => order._id),
                             );
                           } else {
                             setSelectedOrders([]);
@@ -277,7 +277,7 @@ export default function AdminPage() {
                     <div
                       onClick={() =>
                         setSortType((prev) =>
-                          prev === "date-asc" ? "date-desc" : "date-asc"
+                          prev === "date-asc" ? "date-desc" : "date-asc",
                         )
                       }
                       className="w-[160px] p-4 flex items-center gap-2 cursor-pointer"
@@ -292,7 +292,7 @@ export default function AdminPage() {
                     <div
                       onClick={() =>
                         setSortType((prev) =>
-                          prev === "status-asc" ? "status-desc" : "status-asc"
+                          prev === "status-asc" ? "status-desc" : "status-asc",
                         )
                       }
                       className="min-w-[160px] p-4 flex items-center gap-2 cursor-pointer justify-between"
@@ -311,7 +311,7 @@ export default function AdminPage() {
                         onSelect={(orderId) => {
                           if (selectedOrders.includes(orderId)) {
                             setSelectedOrders(
-                              selectedOrders.filter((id) => id !== orderId)
+                              selectedOrders.filter((id) => id !== orderId),
                             );
                           } else {
                             setSelectedOrders([...selectedOrders, orderId]);
@@ -357,7 +357,7 @@ export default function AdminPage() {
                             <PaginationNext
                               onClick={() =>
                                 setCurrentPage((p) =>
-                                  Math.min(p + 1, totalPages)
+                                  Math.min(p + 1, totalPages),
                                 )
                               }
                               className={
