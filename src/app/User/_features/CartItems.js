@@ -14,7 +14,7 @@ const getDeliveryPrice = (amount) => (amount < 50000 ? 15000 : 7500);
 const updateLocal = (items) => {
   localStorage.setItem(
     "cart",
-    JSON.stringify(items.map((i) => ({ _id: i._id, quantity: i.quantity })))
+    JSON.stringify(items.map((i) => ({ _id: i._id, quantity: i.quantity }))),
   );
 };
 
@@ -30,7 +30,7 @@ export default function CartItems() {
     const updated = cartItems.map((item) =>
       item._id === id
         ? { ...item, quantity: Math.max(1, item.quantity + change) }
-        : item
+        : item,
     );
     setCartItems(updated);
     updateLocal(updated);
@@ -43,13 +43,17 @@ export default function CartItems() {
   };
 
   const handleOrder = async () => {
+    if (!deliveryLocation) return toast.warn("Hurgelt hiih haygaa oruulna uu!");
+
     const token = localStorage.getItem("token");
     if (!token) return toast.error("ta newterj orno uu?");
+    console.log("TOKEN:", localStorage.getItem("token"));
+
     if (cartItems.length === 0) return toast.warn("Hool nemne uu!!");
 
     const itemsTotal = cartItems.reduce(
       (sum, i) => sum + i.foodPrice * i.quantity,
-      0
+      0,
     );
 
     const totalPrice = itemsTotal + getDeliveryPrice(itemsTotal);
@@ -68,7 +72,7 @@ export default function CartItems() {
         },
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
 
       localStorage.removeItem("cart");
@@ -76,10 +80,10 @@ export default function CartItems() {
       setDeliveryPrice(0);
       toast.success("Order Successfully created!");
       setOpen(false);
-      setIsLoading(false);
     } catch (err) {
       console.error("Order error:", err.response?.data || err.message);
-      toast.error("order uusgehed aldaa garlaa! dahin oroldono uu");
+      toast.error(err.response?.data?.message || "aldaa garlaa");
+    } finally {
       setIsLoading(false);
     }
   };
@@ -120,7 +124,7 @@ export default function CartItems() {
 
     const itemsTotal = cartItems.reduce(
       (sum, food) => sum + food.foodPrice * food.quantity,
-      0
+      0,
     );
 
     setDeliveryPrice(getDeliveryPrice(itemsTotal));
@@ -128,7 +132,7 @@ export default function CartItems() {
 
   const itemsTotalAmount = cartItems.reduce(
     (acc, cur) => acc + cur.foodPrice * cur.quantity,
-    0
+    0,
   );
   const totalAmount = itemsTotalAmount + deliveryPrice;
 
@@ -230,7 +234,7 @@ export default function CartItems() {
                         setDeliveryLocation(e.target.value);
                         localStorage.setItem(
                           "deliveryLocation",
-                          e.target.value
+                          e.target.value,
                         );
                       }}
                       className="min-h-20 w-full border rounded-20px"
